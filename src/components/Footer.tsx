@@ -5,7 +5,7 @@ import {
   Linkedin, 
   Instagram, 
   Youtube, 
-  Discord, 
+  MessageSquare, 
   ArrowRight 
 } from 'lucide-react';
 
@@ -37,7 +37,7 @@ const Footer = () => {
                 <Youtube size={18} />
               </a>
               <a href="https://discord.com" className="text-white/70 hover:text-unai-blue transition-colors" aria-label="Discord">
-                <Discord size={18} />
+                <MessageSquare size={18} />
               </a>
             </div>
           </div>
