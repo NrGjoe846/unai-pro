@@ -1,11 +1,12 @@
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +20,11 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -51,7 +57,9 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className="text-white/80 hover:text-white transition-colors duration-300 text-sm tracking-wide"
+                className={`text-white/80 hover:text-white transition-colors duration-300 text-sm tracking-wide ${
+                  location.pathname === link.path ? 'text-white font-medium' : ''
+                }`}
               >
                 {link.name}
               </Link>
@@ -60,10 +68,18 @@ const Navbar = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/login" className="btn-secondary text-sm">
+            <Link 
+              to="/login" 
+              className="btn-secondary text-sm"
+              aria-label="Sign in to your account"
+            >
               Sign In
             </Link>
-            <Link to="/signup" className="btn-primary text-sm">
+            <Link 
+              to="/signup" 
+              className="btn-primary text-sm"
+              aria-label="Create a new account"
+            >
               Join Now
             </Link>
           </div>
@@ -72,6 +88,7 @@ const Navbar = () => {
           <button
             className="md:hidden text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? (
               <X className="h-6 w-6" />
@@ -93,8 +110,9 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.path}
-              className="block py-2 text-white/80 hover:text-white transition-colors duration-300"
-              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block py-2 transition-colors duration-300 ${
+                location.pathname === link.path ? 'text-white font-medium' : 'text-white/80 hover:text-white'
+              }`}
             >
               {link.name}
             </Link>
@@ -103,14 +121,12 @@ const Navbar = () => {
             <Link 
               to="/login" 
               className="btn-secondary text-center"
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Sign In
             </Link>
             <Link 
               to="/signup" 
               className="btn-primary text-center"
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Join Now
             </Link>
