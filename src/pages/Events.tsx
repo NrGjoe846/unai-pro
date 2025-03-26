@@ -8,11 +8,12 @@ import EventCarousel from '@/components/EventCarousel';
 import RegistrationForm from '@/components/RegistrationForm';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from '@/components/ui/use-toast';
+import { EventData } from '@/types/event';
 
 const Events = () => {
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
 
-  const handleEventSelect = (event: Event) => {
+  const handleEventSelect = (event: EventData) => {
     setSelectedEvent(event);
     toast({
       title: "Event Selected",

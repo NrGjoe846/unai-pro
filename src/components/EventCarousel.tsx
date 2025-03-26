@@ -1,5 +1,5 @@
 
-import { Event } from './EventCalendar';
+import { EventData } from '@/types/event';
 import { Button } from './ui/button';
 import { 
   Carousel, 
@@ -13,7 +13,7 @@ import { Calendar, MapPin, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // Mock events data - using the same structure as in EventCalendar
-const featuredEvents: Event[] = [
+const featuredEvents: EventData[] = [
   {
     id: 'ai-summit-2023',
     title: 'AI Summit 2023',
@@ -59,7 +59,7 @@ const featuredEvents: Event[] = [
 ];
 
 interface EventCarouselProps {
-  onEventSelect: (event: Event) => void;
+  onEventSelect: (event: EventData) => void;
 }
 
 const EventCarousel = ({ onEventSelect }: EventCarouselProps) => {
