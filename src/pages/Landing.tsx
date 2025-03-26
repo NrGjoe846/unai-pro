@@ -12,7 +12,7 @@ const Landing = () => {
   const handleEnter = () => {
     setIsEntering(true);
     setTimeout(() => {
-      navigate('/');
+      navigate('/home');
     }, 500);
   };
 
