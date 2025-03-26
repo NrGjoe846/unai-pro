@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -27,7 +26,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
+    { name: 'Home', path: '/home' }, // Changed from '/' to '/home'
     { name: 'Eve Platform', path: '/eve-platform' },
     { name: 'Courses', path: '/courses' },
     { name: 'Events', path: '/events' },
@@ -44,7 +43,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link 
-            to="/" 
+            to="/home" 
             className="flex items-center space-x-2 text-xl font-bold"
           >
             <span className="gradient-text">UNAI</span>
