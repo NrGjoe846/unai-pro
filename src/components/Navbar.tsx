@@ -21,7 +21,7 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
+    { name: 'Home', path: '/home' },
     { name: 'Eve Platform', path: '/eve-platform' },
     { name: 'Courses', path: '/courses' },
     { name: 'Events', path: '/events' },
