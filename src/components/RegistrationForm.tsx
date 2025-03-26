@@ -1,31 +1,77 @@
 
 import { useState } from 'react';
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
-  FormMessage 
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
-import { EventData } from '@/types/event';
+import { Event } from './EventCalendar';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Checkbox } from './ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Textarea } from './ui/textarea';
+import { toast } from '@/components/ui/use-toast';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from './ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
-// Form validation schema
+// Mock events data for the dropdown
+const eventsMock: Event[] = [
+  {
+    id: 'ai-summit-2023',
+    title: 'AI Summit 2023',
+    description: 'Join the largest AI conference dedicated to cutting-edge advancements and practical applications in artificial intelligence.',
+    date: new Date('2023-12-15T09:00:00'),
+    location: 'San Francisco, CA',
+    category: 'seminar',
+    price: 199.99,
+    imageUrl: '/placeholder.svg'
+  },
+  {
+    id: 'ai-hackathon-2023',
+    title: 'AI Hackathon 2023',
+    description: 'A 48-hour hackathon focused on building AI solutions for real-world problems.',
+    date: new Date('2023-12-05T10:00:00'),
+    endDate: new Date('2023-12-07T18:00:00'),
+    location: 'Virtual Event',
+    category: 'hackathon',
+    price: 'Free',
+    imageUrl: '/placeholder.svg'
+  },
+  {
+    id: 'ml-workshop',
+    title: 'Machine Learning Workshop',
+    description: 'Hands-on workshop on implementing ML algorithms for predictive analytics.',
+    date: new Date('2023-12-12T14:00:00'),
+    location: 'New York, NY',
+    category: 'workshop',
+    price: 49.99,
+    imageUrl: '/placeholder.svg'
+  },
+  {
+    id: 'nlp-competition',
+    title: 'NLP Challenge',
+    description: 'Compete to build the most accurate natural language processing model.',
+    date: new Date('2023-12-22T09:00:00'),
+    endDate: new Date('2023-12-23T18:00:00'),
+    location: 'Virtual Event',
+    category: 'competition',
+    price: 25,
+    imageUrl: '/placeholder.svg'
+  }
+];
+
+// Form schema
 const formSchema = z.object({
+  eventId: z.string({
+    required_error: "Please select an event.",
+  }),
   fullName: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
@@ -33,7 +79,7 @@ const formSchema = z.object({
     message: "Please enter a valid email address.",
   }),
   phone: z.string().min(10, {
-    message: "Please enter a valid phone number.",
+    message: "Phone number must be at least 10 digits.",
   }),
   organization: z.string().min(2, {
     message: "Organization name must be at least 2 characters.",
@@ -41,79 +87,110 @@ const formSchema = z.object({
   experienceLevel: z.enum(["beginner", "intermediate", "advanced"], {
     required_error: "Please select your experience level.",
   }),
-  heardFrom: z.enum(["social_media", "website", "friend", "other"], {
+  referralSource: z.enum(["social_media", "website", "friend", "other"], {
     required_error: "Please select how you heard about us.",
   }),
   specialRequirements: z.string().optional(),
+  termsAccepted: z.literal(true, {
+    errorMap: () => ({ message: "You must accept the terms and conditions." }),
+  }),
 });
 
 interface RegistrationFormProps {
-  selectedEvent: EventData | null;
+  selectedEvent: Event | null;
 }
 
 const RegistrationForm = ({ selectedEvent }: RegistrationFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Initialize form
+  // Form configuration
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      eventId: selectedEvent?.id || "",
       fullName: "",
       email: "",
       phone: "",
       organization: "",
       experienceLevel: "beginner",
-      heardFrom: "website",
+      referralSource: "website",
       specialRequirements: "",
+      termsAccepted: false,
     },
   });
-
+  
+  // Update form values when selected event changes
+  useState(() => {
+    if (selectedEvent) {
+      form.setValue('eventId', selectedEvent.id);
+    }
+  });
+  
   // Form submission handler
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     
     // Simulate API call
     setTimeout(() => {
-      console.log("Form submitted:", values);
-      console.log("Selected event:", selectedEvent);
+      console.log("Form values:", values);
       
+      // Show success toast
       toast({
-        title: "Registration successful!",
-        description: `Thank you for registering for ${selectedEvent?.title || "our event"}. Check your email for confirmation.`,
+        title: "Registration Successful!",
+        description: "You have successfully registered for the event. Check your email for confirmation.",
       });
       
-      form.reset();
       setIsSubmitting(false);
+      form.reset();
     }, 1500);
-  }
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {selectedEvent && (
-          <div className="p-4 mb-6 bg-unai-blue/10 border border-unai-blue/30 rounded-lg">
-            <h3 className="font-medium text-unai-blue mb-2">Selected Event:</h3>
-            <p className="text-white">{selectedEvent.title}</p>
-            <p className="text-sm text-white/70 mt-1">
-              {new Date(selectedEvent.date).toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              })}
-            </p>
-          </div>
-        )}
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Event Selection */}
+          <FormField
+            control={form.control}
+            name="eventId"
+            render={({ field }) => (
+              <FormItem className="md:col-span-2">
+                <FormLabel className="text-white">Event</FormLabel>
+                <Select 
+                  onValueChange={field.onChange} 
+                  value={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                      <SelectValue placeholder="Select an event" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {eventsMock.map(event => (
+                      <SelectItem key={event.id} value={event.id}>
+                        {event.title} - {new Date(event.date).toLocaleDateString()}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          {/* Personal Details */}
           <FormField
             control={form.control}
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel className="text-white">Full Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="John Doe" {...field} className="bg-white/5 border-white/10 text-white" />
+                  <Input 
+                    placeholder="John Doe" 
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/40" 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -125,9 +202,13 @@ const RegistrationForm = ({ selectedEvent }: RegistrationFormProps) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="text-white">Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="john@example.com" {...field} className="bg-white/5 border-white/10 text-white" />
+                  <Input 
+                    placeholder="you@example.com" 
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/40" 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,9 +220,13 @@ const RegistrationForm = ({ selectedEvent }: RegistrationFormProps) => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel className="text-white">Phone Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="+1 (555) 000-0000" {...field} className="bg-white/5 border-white/10 text-white" />
+                  <Input 
+                    placeholder="+1 (555) 123-4567" 
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/40" 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,27 +238,33 @@ const RegistrationForm = ({ selectedEvent }: RegistrationFormProps) => {
             name="organization"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>College/Company</FormLabel>
+                <FormLabel className="text-white">College / Company</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your organization" {...field} className="bg-white/5 border-white/10 text-white" />
+                  <Input 
+                    placeholder="Organization name" 
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/40" 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          {/* Additional Information */}
           <FormField
             control={form.control}
             name="experienceLevel"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Experience Level</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormLabel className="text-white">Experience Level</FormLabel>
+                <Select 
+                  onValueChange={field.onChange} 
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger className="bg-white/5 border-white/10 text-white">
-                      <SelectValue placeholder="Select your experience level" />
+                      <SelectValue placeholder="Select your level" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -189,11 +280,14 @@ const RegistrationForm = ({ selectedEvent }: RegistrationFormProps) => {
           
           <FormField
             control={form.control}
-            name="heardFrom"
+            name="referralSource"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>How did you hear about us?</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormLabel className="text-white">How did you hear about this event?</FormLabel>
+                <Select 
+                  onValueChange={field.onChange} 
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger className="bg-white/5 border-white/10 text-white">
                       <SelectValue placeholder="Select an option" />
@@ -210,35 +304,56 @@ const RegistrationForm = ({ selectedEvent }: RegistrationFormProps) => {
               </FormItem>
             )}
           />
+          
+          <FormField
+            control={form.control}
+            name="specialRequirements"
+            render={({ field }) => (
+              <FormItem className="md:col-span-2">
+                <FormLabel className="text-white">Any Special Requirements?</FormLabel>
+                <FormControl>
+                  <Textarea 
+                    placeholder="Tell us about any special requirements or questions you may have." 
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/40 min-h-[100px]" 
+                    {...field} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          {/* Terms & Conditions */}
+          <FormField
+            control={form.control}
+            name="termsAccepted"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 md:col-span-2">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel className="text-white">
+                    I agree to the <a href="/terms" className="text-unai-blue">terms & conditions</a>
+                  </FormLabel>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
         </div>
         
-        <FormField
-          control={form.control}
-          name="specialRequirements"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Special Requirements (Optional)</FormLabel>
-              <FormControl>
-                <Textarea 
-                  placeholder="Any special requirements or questions?" 
-                  className="bg-white/5 border-white/10 text-white resize-none h-24" 
-                  {...field} 
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex justify-end">
-          <Button 
-            type="submit" 
-            className="bg-unai-blue hover:bg-unai-blue/90"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Register for Event"}
-          </Button>
-        </div>
+        {/* Submit Button */}
+        <Button 
+          type="submit" 
+          className="btn-primary w-full sm:w-auto" 
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Registering..." : "Register for Event"}
+        </Button>
       </form>
     </Form>
   );

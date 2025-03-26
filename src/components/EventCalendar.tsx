@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Calendar } from './ui/calendar';
 import { Badge } from './ui/badge';
@@ -9,10 +10,22 @@ import {
   SelectTrigger,
   SelectValue
 } from './ui/select';
-import { EventData } from '@/types/event';
+
+// Define Event type
+export interface Event {
+  id: string;
+  title: string;
+  description: string;
+  date: Date;
+  endDate?: Date;
+  location: string;
+  category: 'workshop' | 'hackathon' | 'seminar' | 'competition';
+  price: number | 'Free';
+  imageUrl: string;
+}
 
 // Mock events data
-const eventsMock: EventData[] = [
+const eventsMock: Event[] = [
   {
     id: 'ai-hackathon-2023',
     title: 'AI Hackathon 2023',
@@ -58,7 +71,7 @@ const eventsMock: EventData[] = [
 ];
 
 interface EventCalendarProps {
-  onEventSelect: (event: EventData) => void;
+  onEventSelect: (event: Event) => void;
 }
 
 const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
