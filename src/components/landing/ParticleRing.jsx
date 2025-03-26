@@ -14,9 +14,9 @@ const ParticleRing = () => {
         style={{ height: "100vh" }}
         className="bg-unai-black"
       >
+        <directionalLight intensity={1.0} />
+        <pointLight position={[-30, 0, -30]} intensity={10.0} />
         <OrbitControls maxDistance={20} minDistance={10} />
-        <directionalLight />
-        <pointLight position={[-30, 0, -30]} power={10.0} />
         <PointCircle />
       </Canvas>
 

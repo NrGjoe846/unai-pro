@@ -34,7 +34,7 @@ const Landing = () => {
         
         <Button 
           onClick={handleEnter}
-          className="btn-primary text-lg px-8 py-6 rounded-full group flex items-center gap-2"
+          className="bg-primary text-lg px-8 py-6 rounded-full group flex items-center gap-2"
         >
           Enter the AI Universe
           <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
