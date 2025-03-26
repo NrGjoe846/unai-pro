@@ -5,6 +5,10 @@ import Hero from '../components/Hero';
 import EvePlatform from '../components/EvePlatform';
 import Footer from '../components/Footer';
 import FeatureCard from '../components/FeatureCard';
+import Statistics from '../components/Statistics';
+import WhyChooseUs from '../components/WhyChooseUs';
+import UpcomingEvents from '../components/UpcomingEvents';
+import EveBot from '../components/EveBot';
 import { Calendar, Zap, Code, Lightbulb, Users, Book } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -19,7 +23,16 @@ const Index = () => {
       <Navbar />
       <Hero />
       
-      {/* Featured Sections */}
+      {/* Statistics Section */}
+      <Statistics />
+      
+      {/* Why Choose Us Section */}
+      <WhyChooseUs />
+      
+      {/* Upcoming Events Section */}
+      <UpcomingEvents />
+      
+      {/* Featured Programs Section */}
       <div className="section-container">
         <div className="text-center mb-16">
           <h2 className="text-sm uppercase tracking-wider text-unai-blue mb-3 animate-fade-in">
@@ -100,6 +113,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+      
+      {/* Eve Bot */}
+      <EveBot />
       
       <Footer />
     </div>
