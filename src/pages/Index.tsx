@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -9,6 +8,7 @@ import Statistics from '../components/Statistics';
 import WhyChooseUs from '../components/WhyChooseUs';
 import UpcomingEvents from '../components/UpcomingEvents';
 import EveBot from '../components/EveBot';
+import { Aurora } from '../components/Aurora';
 import { Calendar, Zap, Code, Lightbulb, Users, Book } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -19,7 +19,8 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-unai-black overflow-x-hidden">
+    <div className="min-h-screen bg-unai-black overflow-x-hidden relative">
+      <Aurora />
       <Navbar />
       <Hero />
       
@@ -33,7 +34,7 @@ const Index = () => {
       <UpcomingEvents />
       
       {/* Featured Programs Section */}
-      <div className="section-container">
+      <div className="section-container relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-sm uppercase tracking-wider text-unai-blue mb-3 animate-fade-in">
             AI Excellence
@@ -90,7 +91,7 @@ const Index = () => {
       <EvePlatform />
       
       {/* CTA Section */}
-      <div className="section-container py-20">
+      <div className="section-container py-20 relative z-10">
         <div className="glass-panel relative overflow-hidden rounded-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-unai-blue/20 to-transparent"></div>
           <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-unai-blue/20 rounded-full filter blur-[80px] animate-float opacity-60"></div>
