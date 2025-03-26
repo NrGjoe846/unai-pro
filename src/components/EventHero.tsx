@@ -65,9 +65,8 @@ const EventHero = () => {
             </Button>
           </div>
           
-          <div className="lg:w-1/2 relative h-[500px]">
+          <div className="lg:w-1/2 relative h-[500px] w-full">
             <Globe className="absolute inset-0" />
-            <div className="absolute inset-0 bg-gradient-to-t from-unai-black via-transparent to-transparent pointer-events-none"></div>
           </div>
         </div>
       </div>
