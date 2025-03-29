@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -35,6 +34,39 @@ const About = () => {
       role: 'Head of Education',
       image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop',
       delay: 0.4
+    }
+  ];
+
+  const testimonials = [
+    {
+      quote: "UNAI TECH transformed my understanding of AI. Their hands-on approach and real-world projects gave me the confidence to transition into AI development.",
+      name: "Emily Chen",
+      title: "AI Developer at TechCorp",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      quote: "The gamified learning experience made complex AI concepts accessible and enjoyable. I went from a complete beginner to deploying my first ML model in weeks.",
+      name: "Marcus Johnson",
+      title: "Data Scientist",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      quote: "Their AI ethics course opened my eyes to the importance of responsible AI development. UNAI TECH is setting the standard for comprehensive AI education.",
+      name: "Dr. Sarah Williams",
+      title: "AI Ethics Researcher",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      quote: "The community support and networking opportunities are unmatched. I found my current role through UNAI TECH's industry partnerships.",
+      name: "David Park",
+      title: "ML Engineer at AI Solutions",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      quote: "The project-based curriculum helped me build a strong portfolio. The mentorship from industry experts was invaluable for my career growth.",
+      name: "Lisa Rodriguez",
+      title: "AI Product Manager",
+      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1974&auto=format&fit=crop"
     }
   ];
 
@@ -135,6 +167,74 @@ const About = () => {
               We foster a collaborative environment where learners, educators, and AI practitioners can connect, share knowledge, and grow together.
             </p>
           </div>
+        </div>
+      </div>
+
+      {/* Testimonials Section */}
+      <div className="section-container py-16 overflow-hidden">
+        <div className="text-center mb-16">
+          <h2 className="text-sm uppercase tracking-wider text-unai-blue mb-3 animate-fade-in">
+            Success Stories
+          </h2>
+          <h3 className="text-3xl md:text-4xl font-bold mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <span className="text-white">What Our Students Say</span>
+          </h3>
+        </div>
+
+        <div className="relative">
+          {/* First Row */}
+          <div className="flex gap-6 animate-[slide_250s_linear_infinite]">
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
+              <div
+                key={index}
+                className="glass-panel p-6 rounded-xl min-w-[400px] flex-shrink-0"
+              >
+                <div className="flex items-start gap-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="text-white/80 mb-4">{testimonial.quote}</p>
+                    <div>
+                      <p className="font-semibold text-white">{testimonial.name}</p>
+                      <p className="text-sm text-unai-blue">{testimonial.title}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Second Row */}
+          <div className="flex gap-6 mt-6 animate-[slide_200s_linear_infinite_reverse]">
+            {[...testimonials.reverse(), ...testimonials].map((testimonial, index) => (
+              <div
+                key={index}
+                className="glass-panel p-6 rounded-xl min-w-[400px] flex-shrink-0"
+              >
+                <div className="flex items-start gap-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="text-white/80 mb-4">{testimonial.quote}</p>
+                    <div>
+                      <p className="font-semibold text-white">{testimonial.name}</p>
+                      <p className="text-sm text-unai-blue">{testimonial.title}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Gradient Overlays */}
+          <div className="absolute top-0 left-0 right-0 h-full w-1/3 bg-gradient-to-r from-unai-black to-transparent pointer-events-none"></div>
+          <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-unai-black to-transparent pointer-events-none"></div>
         </div>
       </div>
       
