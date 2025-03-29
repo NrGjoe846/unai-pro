@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Lightbulb, Target, Users, Rocket, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, animate } from 'framer-motion';
 
 const About = () => {
   useEffect(() => {
-    // Scroll to top on page load
     window.scrollTo(0, 0);
   }, []);
 
-  const teamMembers = [
+  // Team members data
+  const [teamMembers, setTeamMembers] = useState([
     {
       name: 'Dr. Alex Chen',
       role: 'Founder & CEO',
@@ -36,68 +36,59 @@ const About = () => {
       image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop',
       delay: 0.4
     }
-  ];
+  ]);
 
-  const testimonials = [
-    {
-      quote: "UNAI TECH transformed my understanding of AI. Their hands-on approach and real-world projects gave me the confidence to transition into AI development.",
-      name: "Emily Chen",
-      title: "AI Developer at TechCorp",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop"
-    },
-    {
-      quote: "The gamified learning experience made complex AI concepts accessible and enjoyable. I went from a complete beginner to deploying my first ML model in weeks.",
-      name: "Marcus Johnson",
-      title: "Data Scientist",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop"
-    },
-    {
-      quote: "Their AI ethics course opened my eyes to the importance of responsible AI development. UNAI TECH is setting the standard for comprehensive AI education.",
-      name: "Dr. Sarah Williams",
-      title: "AI Ethics Researcher",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1974&auto=format&fit=crop"
-    },
-    {
-      quote: "The community support and networking opportunities are unmatched. I found my current role through UNAI TECH's industry partnerships.",
-      name: "David Park",
-      title: "ML Engineer at AI Solutions",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop"
-    },
-    {
-      quote: "The project-based curriculum helped me build a strong portfolio. The mentorship from industry experts was invaluable for my career growth.",
-      name: "Lisa Rodriguez",
-      title: "AI Product Manager",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1974&auto=format&fit=crop"
-    }
-  ];
+  // Card drag functionality
+  const moveToEnd = (index: number) => {
+    setTeamMembers(cards => {
+      const card = cards[index];
+      return [...cards.slice(0, index), ...cards.slice(index + 1), card];
+    });
+  };
 
-  // Shuffle animation variants
-  const shuffleVariants = {
-    initial: (i: number) => ({
-      opacity: 0,
-      y: 50,
-      scale: 0.9,
-      rotate: i % 2 === 0 ? -5 : 5,
-    }),
-    animate: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotate: 0,
-      transition: {
-        duration: 0.8,
-        delay: i * 0.1,
-        ease: [0.23, 1, 0.32, 1],
-      },
-    }),
-    hover: {
-      y: -10,
-      scale: 1.02,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
+  const ShuffleCard = ({ member, index }: { member: any; index: number }) => {
+    const x = useMotionValue(0);
+    const rotate = useMotionValue(0);
+
+    const handleDragEnd = () => {
+      if (Math.abs(x.get()) > 100) {
+        moveToEnd(index);
+      }
+      animate(x, 0, { type: "spring", stiffness: 600, damping: 30 });
+      animate(rotate, 0, { type: "spring", stiffness: 600, damping: 30 });
+    };
+
+    return (
+      <motion.div
+        style={{
+          x,
+          rotate,
+          cursor: 'grab',
+        }}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        onDrag={(_, info) => {
+          rotate.set(info.offset.x * 0.1);
+        }}
+        onDragEnd={handleDragEnd}
+        whileTap={{ cursor: 'grabbing' }}
+        className="glass-panel p-6 rounded-xl relative"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-full overflow-hidden">
+            <img 
+              src={member.image} 
+              alt={member.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-white">{member.name}</h3>
+            <p className="text-unai-blue">{member.role}</p>
+          </div>
+        </div>
+      </motion.div>
+    );
   };
 
   return (
@@ -200,75 +191,7 @@ const About = () => {
         </div>
       </div>
 
-      {/* Testimonials Section */}
-      <div className="section-container py-16 overflow-hidden">
-        <div className="text-center mb-16">
-          <h2 className="text-sm uppercase tracking-wider text-unai-blue mb-3 animate-fade-in">
-            Success Stories
-          </h2>
-          <h3 className="text-3xl md:text-4xl font-bold mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <span className="text-white">What Our Students Say</span>
-          </h3>
-        </div>
-
-        <div className="relative">
-          {/* First Row */}
-          <div className="flex gap-6 animate-[slide_250s_linear_infinite]">
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
-              <div
-                key={index}
-                className="glass-panel p-6 rounded-xl min-w-[400px] flex-shrink-0"
-              >
-                <div className="flex items-start gap-4">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="text-white/80 mb-4">{testimonial.quote}</p>
-                    <div>
-                      <p className="font-semibold text-white">{testimonial.name}</p>
-                      <p className="text-sm text-unai-blue">{testimonial.title}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Second Row */}
-          <div className="flex gap-6 mt-6 animate-[slide_200s_linear_infinite_reverse]">
-            {[...testimonials.reverse(), ...testimonials].map((testimonial, index) => (
-              <div
-                key={index}
-                className="glass-panel p-6 rounded-xl min-w-[400px] flex-shrink-0"
-              >
-                <div className="flex items-start gap-4">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="text-white/80 mb-4">{testimonial.quote}</p>
-                    <div>
-                      <p className="font-semibold text-white">{testimonial.name}</p>
-                      <p className="text-sm text-unai-blue">{testimonial.title}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Gradient Overlays */}
-          <div className="absolute top-0 left-0 right-0 h-full w-1/3 bg-gradient-to-r from-unai-black to-transparent pointer-events-none"></div>
-          <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-unai-black to-transparent pointer-events-none"></div>
-        </div>
-      </div>
-      
-      {/* Team Section */}
+      {/* Team Section with Shuffle Cards */}
       <div className="section-container py-16">
         <div className="text-center mb-16">
           <h2 className="text-sm uppercase tracking-wider text-unai-blue mb-3 animate-fade-in">
@@ -278,38 +201,13 @@ const About = () => {
             <span className="text-white">Meet Our Team</span>
           </h3>
           <p className="max-w-2xl mx-auto text-white/70 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Our team of AI experts, educators, and innovators are dedicated to creating 
-            the future of AI education and technology.
+            Drag the cards to shuffle through our team of AI experts, educators, and innovators.
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        <div className="max-w-md mx-auto space-y-4">
           {teamMembers.map((member, index) => (
-            <motion.div
-              key={member.name}
-              custom={index}
-              variants={shuffleVariants}
-              initial="initial"
-              animate="animate"
-              whileHover="hover"
-              className="glass-panel overflow-hidden rounded-xl"
-            >
-              <div className="aspect-square relative overflow-hidden">
-                <div 
-                  className="absolute inset-0 bg-unai-darkblue"
-                  style={{
-                    backgroundImage: `url(${member.image})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                ></div>
-              </div>
-              
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold mb-1 text-white">{member.name}</h3>
-                <p className="text-unai-blue">{member.role}</p>
-              </div>
-            </motion.div>
+            <ShuffleCard key={member.name} member={member} index={index} />
           ))}
         </div>
         
