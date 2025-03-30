@@ -1,59 +1,48 @@
 import { useState } from 'react';
-import { Calendar } from './ui/calendar';
-import { Badge } from './ui/badge';
+import { Calendar } from "@/components/ui/calendar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Calendar as CalendarIcon, MapPin, Clock, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from './ui/select';
 import { EventData } from '@/types/event';
 
 // Mock events data
-const eventsMock: EventData[] = [
+const eventsData: EventData[] = [
   {
-    id: 'ai-hackathon-2023',
-    title: 'AI Hackathon 2023',
-    description: 'A 48-hour hackathon focused on building AI solutions for real-world problems.',
-    date: new Date('2023-12-05T10:00:00'),
-    endDate: new Date('2023-12-07T18:00:00'),
-    location: 'Virtual Event',
-    category: 'hackathon',
-    price: 'Free',
-    imageUrl: '/placeholder.svg'
-  },
-  {
-    id: 'ml-workshop',
-    title: 'Machine Learning Workshop',
-    description: 'Hands-on workshop on implementing ML algorithms for predictive analytics.',
-    date: new Date('2023-12-12T14:00:00'),
-    location: 'New York, NY',
-    category: 'workshop',
-    price: 49.99,
-    imageUrl: '/placeholder.svg'
-  },
-  {
-    id: 'ai-ethics-seminar',
-    title: 'AI Ethics Seminar',
-    description: 'A seminar discussing ethical considerations in AI development and deployment.',
-    date: new Date('2023-12-18T15:00:00'),
-    location: 'Boston, MA',
-    category: 'seminar',
-    price: 'Free',
-    imageUrl: '/placeholder.svg'
-  },
-  {
-    id: 'nlp-competition',
-    title: 'NLP Challenge',
-    description: 'Compete to build the most accurate natural language processing model.',
-    date: new Date('2023-12-22T09:00:00'),
-    endDate: new Date('2023-12-23T18:00:00'),
-    location: 'Virtual Event',
+    id: 'bizcanvas-2025',
+    title: 'BIZCANVAS 2025',
+    description: 'Join us for BIZCANVAS 2025, where innovation meets entrepreneurship. This premier business planning competition brings together visionary minds to showcase groundbreaking ideas and compete for substantial funding opportunities.',
+    date: new Date('2025-04-05T10:00:00'),
+    location: 'Silicon Valley Convention Center',
     category: 'competition',
-    price: 25,
-    imageUrl: '/placeholder.svg'
+    price: 'Free',
+    imageUrl: '/placeholder.svg',
+    attendees: 500,
+    organizer: 'UNAI TECH Business Innovation Hub',
+    highlights: [
+      'Expert Panel of Judges',
+      '$50,000 in Prize Money',
+      'Networking with Industry Leaders',
+      'Pitch Workshop Sessions'
+    ]
+  },
+  {
+    id: 'ai-summit-2025',
+    title: 'AI Summit 2025',
+    description: 'Experience the future of AI at our annual summit featuring keynote speakers, workshops, and networking opportunities.',
+    date: new Date('2025-03-15T09:00:00'),
+    location: 'Tech Hub Conference Center',
+    category: 'seminar',
+    price: 199.99,
+    imageUrl: '/placeholder.svg',
+    attendees: 1000,
+    organizer: 'UNAI TECH Research Division',
+    highlights: [
+      'Industry Expert Keynotes',
+      'Hands-on AI Workshops',
+      'Research Presentations',
+      'Career Fair'
+    ]
   }
 ];
 
@@ -62,47 +51,26 @@ interface EventCalendarProps {
 }
 
 const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
   
   // Filter events based on selected category
   const filteredEvents = selectedCategory 
-    ? eventsMock.filter(event => event.category === selectedCategory)
-    : eventsMock;
+    ? eventsData.filter(event => event.category === selectedCategory)
+    : eventsData;
   
   // Get events for the selected date
-  const selectedDateEvents = date 
+  const selectedDateEvents = selectedDate 
     ? filteredEvents.filter(event => 
-        event.date.toDateString() === date.toDateString() || 
-        (event.endDate && 
-          date >= new Date(event.date.setHours(0,0,0,0)) && 
-          date <= new Date(event.endDate.setHours(23,59,59,999)))
+        event.date.toDateString() === selectedDate.toDateString()
       )
     : [];
 
   // Function to check if a day has events
   const isDayWithEvent = (day: Date) => {
-    return filteredEvents.some(event => {
-      const eventStartDay = new Date(event.date).setHours(0,0,0,0);
-      const eventEndDay = event.endDate 
-        ? new Date(event.endDate).setHours(23,59,59,999)
-        : eventStartDay;
-      
-      return day.setHours(0,0,0,0) >= eventStartDay && 
-             day.setHours(0,0,0,0) <= eventEndDay;
-    });
-  };
-
-  // Function to render calendar day content
-  const renderDayContent = (day: Date) => {
-    if (isDayWithEvent(day)) {
-      return (
-        <div className="relative h-full w-full">
-          <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-unai-blue rounded-full"></div>
-        </div>
-      );
-    }
-    return null;
+    return filteredEvents.some(event => 
+      event.date.toDateString() === day.toDateString()
+    );
   };
 
   return (
@@ -132,19 +100,26 @@ const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
           
           <Calendar
             mode="single"
-            selected={date}
-            onSelect={setDate}
-            className="bg-white/5 p-4 rounded-xl border border-white/10 text-white"
-            components={{
-              DayContent: ({ date }) => renderDayContent(date)
+            selected={selectedDate}
+            onSelect={(date) => date && setSelectedDate(date)}
+            className="bg-white/5 rounded-lg border border-white/10 p-4 text-white"
+            modifiers={{
+              hasEvent: (date) => isDayWithEvent(date)
+            }}
+            modifiersClassNames={{
+              hasEvent: "relative after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-unai-blue after:rounded-full"
             }}
           />
         </div>
         
         <div className="md:w-1/2">
           <h3 className="text-xl font-bold mb-4 text-white">
-            {date ? (
-              <>Events on {date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</>
+            {selectedDate ? (
+              <>Events on {selectedDate.toLocaleDateString('en-US', { 
+                month: 'long', 
+                day: 'numeric', 
+                year: 'numeric' 
+              })}</>
             ) : (
               'Select a date to see events'
             )}
@@ -155,34 +130,63 @@ const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
               {selectedDateEvents.map(event => (
                 <div 
                   key={event.id}
-                  className="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-colors cursor-pointer"
+                  className="glass-panel p-6 hover:bg-white/10 transition-colors cursor-pointer"
                   onClick={() => onEventSelect(event)}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-semibold text-white">{event.title}</h4>
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className="text-xl font-semibold text-white">{event.title}</h4>
                     <Badge 
                       className={cn(
                         "ml-2", 
-                        event.category === 'hackathon' && "bg-red-500/20 text-red-300 hover:bg-red-500/30",
-                        event.category === 'workshop' && "bg-blue-500/20 text-blue-300 hover:bg-blue-500/30",
-                        event.category === 'seminar' && "bg-purple-500/20 text-purple-300 hover:bg-purple-500/30",
-                        event.category === 'competition' && "bg-green-500/20 text-green-300 hover:bg-green-500/30"
+                        event.category === 'hackathon' && "bg-red-500/20 text-red-300",
+                        event.category === 'workshop' && "bg-blue-500/20 text-blue-300",
+                        event.category === 'seminar' && "bg-purple-500/20 text-purple-300",
+                        event.category === 'competition' && "bg-green-500/20 text-green-300"
                       )}
                     >
                       {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
                     </Badge>
                   </div>
-                  <p className="text-white/70 text-sm mb-3">{event.description.substring(0, 120)}...</p>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-white/60">{new Date(event.date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
-                    <span className="text-white/60">{event.location}</span>
-                    <span className={cn(
-                      "font-medium",
-                      event.price === 'Free' ? "text-green-400" : "text-white/80"
-                    )}>
-                      {event.price === 'Free' ? 'Free' : `$${event.price}`}
-                    </span>
+                  
+                  <p className="text-white/70 mb-4">{event.description}</p>
+                  
+                  <div className="space-y-2 text-sm text-white/60">
+                    <div className="flex items-center gap-2">
+                      <CalendarIcon className="h-4 w-4 text-unai-blue" />
+                      <span>{event.date.toLocaleString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-unai-blue" />
+                      <span>{event.location}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4 text-unai-blue" />
+                      <span>{event.attendees} Attendees Expected</span>
+                    </div>
                   </div>
+                  
+                  {event.highlights && (
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <h5 className="text-sm font-medium text-white mb-2">Event Highlights</h5>
+                      <ul className="grid grid-cols-2 gap-2">
+                        {event.highlights.map((highlight, index) => (
+                          <li key={index} className="text-sm text-white/70 flex items-center gap-2">
+                            <div className="h-1.5 w-1.5 rounded-full bg-unai-blue"></div>
+                            {highlight}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

@@ -1,7 +1,7 @@
-
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Aurora } from './Aurora';
 
 const Hero = () => {
   const [greeting, setGreeting] = useState("Welcome to UNAI TECH");
@@ -22,6 +22,9 @@ const Hero = () => {
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-unai-black via-unai-darkblue to-unai-black z-0" />
+      
+      {/* Aurora effect */}
+      <Aurora />
       
       {/* Animated grid lines */}
       <div className="absolute inset-0 opacity-20">
