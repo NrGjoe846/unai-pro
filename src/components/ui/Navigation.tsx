@@ -1,5 +1,5 @@
 import { Home, Code2, BookOpen, Calendar, Users, Info } from 'lucide-react';
-import { FloatingDock } from './ui/floating-dock';
+import { FloatingDock } from './floating-dock';
 
 const Navigation = () => {
   const links = [
