@@ -10,30 +10,34 @@ const About = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Team members data
+  // Team members data with testimonials
   const [teamMembers, setTeamMembers] = useState([
     {
       name: 'Dr. Alex Chen',
       role: 'Founder & CEO',
       image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop',
+      quote: "I believe AI education should be accessible to everyone. It's not just about learning algorithms; it's about shaping the future.",
       delay: 0.1
     },
     {
       name: 'Sarah Johnson',
       role: 'AI Research Director',
       image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop',
+      quote: "The most rewarding part of my role is seeing students transform complex AI concepts into practical solutions.",
       delay: 0.2
     },
     {
       name: 'Michael Zhang',
       role: 'Lead AI Engineer',
       image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop',
+      quote: "Our hands-on approach to AI education sets us apart. We're not just teaching; we're building the next generation of AI innovators.",
       delay: 0.3
     },
     {
       name: 'Priya Sharma',
       role: 'Head of Education',
       image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop',
+      quote: "Every day, I'm inspired by our students' dedication to mastering AI. Their success stories drive our mission forward.",
       delay: 0.4
     }
   ]);
@@ -72,20 +76,31 @@ const About = () => {
         }}
         onDragEnd={handleDragEnd}
         whileTap={{ cursor: 'grabbing' }}
-        className="glass-panel p-6 rounded-xl relative"
+        className="glass-panel relative overflow-hidden rounded-xl"
       >
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full overflow-hidden">
-            <img 
-              src={member.image} 
-              alt={member.name}
-              className="w-full h-full object-cover"
-            />
+        <div className="absolute inset-0 bg-gradient-to-br from-unai-blue/20 to-transparent opacity-20"></div>
+        
+        <div className="relative p-8">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-unai-blue/30">
+              <img 
+                src={member.image} 
+                alt={member.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-white">{member.name}</h3>
+              <p className="text-unai-blue">{member.role}</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xl font-semibold text-white">{member.name}</h3>
-            <p className="text-unai-blue">{member.role}</p>
-          </div>
+          
+          <blockquote className="relative">
+            <div className="absolute -top-2 -left-2 text-4xl text-unai-blue/20">"</div>
+            <p className="text-white/80 italic relative z-10 pl-4">
+              {member.quote}
+            </p>
+          </blockquote>
         </div>
       </motion.div>
     );
@@ -191,7 +206,7 @@ const About = () => {
         </div>
       </div>
 
-      {/* Team Section with Shuffle Cards */}
+      {/* Team Section with Testimonial Cards */}
       <div className="section-container py-16">
         <div className="text-center mb-16">
           <h2 className="text-sm uppercase tracking-wider text-unai-blue mb-3 animate-fade-in">
@@ -205,7 +220,7 @@ const About = () => {
           </p>
         </div>
 
-        <div className="max-w-md mx-auto space-y-4">
+        <div className="max-w-2xl mx-auto space-y-6">
           {teamMembers.map((member, index) => (
             <ShuffleCard key={member.name} member={member} index={index} />
           ))}
