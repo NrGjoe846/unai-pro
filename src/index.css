@@ -116,6 +116,13 @@
     background-size: 50px 50px;
   }
 
+  /* Disable grid overlay on low-end devices for improved performance */
+  @media (max-width: 640px) {
+    #root::before {
+      display: none;
+    }
+  }
+
   /* Floating orbs */
   #root::after {
     content: '';
