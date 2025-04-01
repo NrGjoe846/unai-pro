@@ -68,3 +68,74 @@ export function Globe({
       
       phi.current += deltaX * 0.005;
       theta.current = Math.max(
+        -Math.PI / 2,
+        Math.min(Math.PI / 2, theta.current + deltaY * 0.005)
+      );
+      
+      pointerInteractionMovement.current += Math.abs(deltaX) + Math.abs(deltaY);
+    }
+    
+    lastMousePosition.current = { x: clientX, y: clientY };
+  };
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    let globe = createGlobe(canvasRef.current, {
+      ...config,
+      width: canvasRef.current.offsetWidth * 2,
+      height: canvasRef.current.offsetHeight * 2,
+      phi: phi.current,
+      theta: theta.current,
+      onRender: (state) => {
+        // Only auto-rotate when not interacting
+        if (!isDragging) {
+          phi.current += autoRotationSpeed;
+        }
+        
+        state.phi = phi.current;
+        state.theta = theta.current;
+        config.onRender?.(state);
+      },
+    });
+
+    return () => {
+      globe.destroy();
+    };
+  }, [isDragging, config]);
+
+  return (
+    <div 
+      className={cn("relative aspect-square w-full max-w-xl", className)}
+      onPointerDown={(e) => {
+        updatePointerInteraction(e.clientX);
+        lastMousePosition.current = { x: e.clientX, y: e.clientY };
+        setIsInteracting(true);
+      }}
+      onPointerUp={() => {
+        updatePointerInteraction(null);
+        setIsInteracting(false);
+      }}
+      onPointerOut={() => {
+        updatePointerInteraction(null);
+        setIsInteracting(false);
+      }}
+      onMouseMove={(e) => {
+        updateMovement(e.clientX, e.clientY);
+      }}
+      onTouchMove={(e) => {
+        updateMovement(e.touches[0].clientX, e.touches[0].clientY);
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        className="h-full w-full"
+        style={{
+          contain: "layout paint size",
+          opacity: isInteracting ? 0.9 : 1,
+          transition: "opacity 0.2s ease",
+        }}
+      />
+    </div>
+  );
+}
