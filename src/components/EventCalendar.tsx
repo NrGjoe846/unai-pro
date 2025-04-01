@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar as CalendarIcon, MapPin, Clock, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { EventData } from '@/types/event';
+import { Button } from './ui/button';
 
 // Mock events data
 const eventsData: EventData[] = [
@@ -73,10 +74,79 @@ const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
     );
   };
 
+  const handleRegister = (eventId: string) => {
+    // Replace with your Google Form URL
+    const googleFormUrl = 'https://forms.google.com/your-form-url';
+    window.open(googleFormUrl, '_blank');
+  };
+
   return (
     <div className="glass-panel p-6 md:p-8">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="md:w-1/2">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Event Details Section */}
+        <div className="lg:w-1/3">
+          {selectedDateEvents.length > 0 && (
+            <div className="glass-panel p-6 h-full">
+              <div className="aspect-video relative rounded-lg overflow-hidden mb-6">
+                <img 
+                  src={selectedDateEvents[0].imageUrl} 
+                  alt={selectedDateEvents[0].title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              <h3 className="text-2xl font-bold text-white mb-4">{selectedDateEvents[0].title}</h3>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex items-center gap-2 text-white/70">
+                  <CalendarIcon className="h-4 w-4 text-unai-blue" />
+                  <span>{selectedDateEvents[0].date.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}</span>
+                </div>
+                
+                <div className="flex items-center gap-2 text-white/70">
+                  <MapPin className="h-4 w-4 text-unai-blue" />
+                  <span>{selectedDateEvents[0].location}</span>
+                </div>
+                
+                <div className="flex items-center gap-2 text-white/70">
+                  <Users className="h-4 w-4 text-unai-blue" />
+                  <span>{selectedDateEvents[0].attendees} Attendees Expected</span>
+                </div>
+              </div>
+              
+              <p className="text-white/70 mb-6">{selectedDateEvents[0].description}</p>
+              
+              {selectedDateEvents[0].highlights && (
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-white mb-3">Event Highlights</h4>
+                  <ul className="space-y-2">
+                    {selectedDateEvents[0].highlights.map((highlight, index) => (
+                      <li key={index} className="flex items-center gap-2 text-white/70">
+                        <div className="h-1.5 w-1.5 rounded-full bg-unai-blue"></div>
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              <Button 
+                onClick={() => handleRegister(selectedDateEvents[0].id)}
+                className="w-full bg-unai-blue hover:bg-unai-blue/90"
+              >
+                Register Now
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Calendar Section */}
+        <div className="lg:w-2/3">
           <div className="mb-6">
             <label className="block text-sm font-medium text-white/80 mb-2">
               Filter by Category
@@ -110,22 +180,21 @@ const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
               hasEvent: "relative after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-unai-blue after:rounded-full"
             }}
           />
-        </div>
-        
-        <div className="md:w-1/2">
-          <h3 className="text-xl font-bold mb-4 text-white">
-            {selectedDate ? (
-              <>Events on {selectedDate.toLocaleDateString('en-US', { 
-                month: 'long', 
-                day: 'numeric', 
-                year: 'numeric' 
-              })}</>
-            ) : (
-              'Select a date to see events'
-            )}
-          </h3>
           
-          {selectedDateEvents.length > 0 ? (
+          {/* Events List for Selected Date */}
+          <div className="mt-6">
+            <h3 className="text-xl font-bold mb-4 text-white">
+              {selectedDate ? (
+                <>Events on {selectedDate.toLocaleDateString('en-US', { 
+                  month: 'long', 
+                  day: 'numeric', 
+                  year: 'numeric' 
+                })}</>
+              ) : (
+                'Select a date to see events'
+              )}
+            </h3>
+            
             <div className="space-y-4">
               {selectedDateEvents.map(event => (
                 <div 
@@ -152,12 +221,8 @@ const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
                   
                   <div className="space-y-2 text-sm text-white/60">
                     <div className="flex items-center gap-2">
-                      <CalendarIcon className="h-4 w-4 text-unai-blue" />
-                      <span>{event.date.toLocaleString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
+                      <Clock className="h-4 w-4 text-unai-blue" />
+                      <span>{event.date.toLocaleTimeString('en-US', {
                         hour: '2-digit',
                         minute: '2-digit'
                       })}</span>
@@ -167,34 +232,27 @@ const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
                       <MapPin className="h-4 w-4 text-unai-blue" />
                       <span>{event.location}</span>
                     </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-unai-blue" />
-                      <span>{event.attendees} Attendees Expected</span>
-                    </div>
                   </div>
                   
-                  {event.highlights && (
-                    <div className="mt-4 pt-4 border-t border-white/10">
-                      <h5 className="text-sm font-medium text-white mb-2">Event Highlights</h5>
-                      <ul className="grid grid-cols-2 gap-2">
-                        {event.highlights.map((highlight, index) => (
-                          <li key={index} className="text-sm text-white/70 flex items-center gap-2">
-                            <div className="h-1.5 w-1.5 rounded-full bg-unai-blue"></div>
-                            {highlight}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                  <Button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRegister(event.id);
+                    }}
+                    className="mt-4 bg-unai-blue hover:bg-unai-blue/90"
+                  >
+                    Register Now
+                  </Button>
                 </div>
               ))}
+              
+              {selectedDateEvents.length === 0 && (
+                <div className="text-center py-12 text-white/50">
+                  No events scheduled for this date.
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="text-center py-12 text-white/50">
-              No events scheduled for this date.
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
