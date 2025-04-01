@@ -66,6 +66,34 @@ const About = () => {
     })
   };
 
+  // Testimonials data
+  const testimonials = [
+    {
+      content: "UNAI TECH's AI courses completely transformed my career. The hands-on projects and personalized learning path helped me land my dream job in machine learning.",
+      author: "Emily Chen",
+      role: "ML Engineer @ Microsoft",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      content: "The gamified learning experience made complex AI concepts easy to understand. The community support is incredible, and the mentorship program is top-notch.",
+      author: "James Wilson",
+      role: "Data Scientist @ Tesla",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      content: "As someone transitioning into AI from a different field, UNAI TECH provided the perfect structured learning path. Their project-based approach is revolutionary.",
+      author: "Maria Garcia",
+      role: "AI Researcher @ Stanford",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      content: "The Eve AI platform's adaptive learning system is incredible. It's like having a personal AI tutor available 24/7.",
+      author: "David Kim",
+      role: "NLP Engineer @ OpenAI",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-unai-black">
       <Navbar />
@@ -150,6 +178,73 @@ const About = () => {
             View Full Team
             <ArrowRight className="h-4 w-4" />
           </Link>
+        </div>
+      </div>
+
+      {/* Testimonials Section */}
+      <div className="section-container py-16 overflow-hidden">
+        <div className="text-center mb-16">
+          <h2 className="text-sm uppercase tracking-wider text-unai-blue mb-3">
+            Success Stories
+          </h2>
+          <h3 className="text-3xl md:text-4xl font-bold mb-6">
+            <span className="gradient-text">What Our Students Say</span>
+          </h3>
+          <p className="max-w-2xl mx-auto text-white/70">
+            Hear from our community of learners who have transformed their careers through UNAI TECH
+          </p>
+        </div>
+
+        <div className="relative">
+          {/* First row */}
+          <div className="flex gap-6 animate-[slide_250s_linear_infinite]">
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-[500px] glass-panel p-8 rounded-xl"
+              >
+                <div className="flex gap-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.author}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="font-semibold text-white">{testimonial.author}</div>
+                    <div className="text-sm text-unai-blue">{testimonial.role}</div>
+                  </div>
+                </div>
+                <div className="mt-6 text-white/80">"{testimonial.content}"</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Second row */}
+          <div className="flex gap-6 mt-6 animate-[slide_200s_linear_infinite_reverse]">
+            {[...testimonials.reverse(), ...testimonials].map((testimonial, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-[500px] glass-panel p-8 rounded-xl"
+              >
+                <div className="flex gap-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.author}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="font-semibold text-white">{testimonial.author}</div>
+                    <div className="text-sm text-unai-blue">{testimonial.role}</div>
+                  </div>
+                </div>
+                <div className="mt-6 text-white/80">"{testimonial.content}"</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Gradient overlays */}
+          <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-unai-black to-transparent"></div>
+          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-unai-black to-transparent"></div>
         </div>
       </div>
       
