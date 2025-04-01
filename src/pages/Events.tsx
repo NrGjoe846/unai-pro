@@ -22,23 +22,17 @@ const Events = () => {
     });
   };
 
-  const handleRegister = (eventId: string) => {
-    // Replace with your Google Form URL
-    const googleFormUrl = 'https://forms.google.com/your-form-url';
-    window.open(googleFormUrl, '_blank');
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-unai-black">
       <Navbar />
       
       <main className="flex-grow">
         {/* Hero Section with Globe */}
-        <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-          {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-unai-black via-unai-darkblue to-unai-black z-0"></div>
+        <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+          {/* Background gradient with enhanced depth */}
+          <div className="absolute inset-0 bg-gradient-to-br from-unai-black via-unai-darkblue/40 to-unai-black z-0"></div>
           
-          {/* Grid lines */}
+          {/* Animated grid lines */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute inset-0" 
                  style={{
@@ -46,6 +40,13 @@ const Events = () => {
                    backgroundSize: '50px 50px'
                  }}>
             </div>
+          </div>
+          
+          {/* Enhanced glow effects */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-unai-blue/20 rounded-full filter blur-[100px] animate-pulse opacity-60"></div>
+            <div className="absolute bottom-1/4 left-1/3 w-[40vw] h-[40vw] bg-unai-blue/10 rounded-full filter blur-[120px] animate-pulse opacity-40" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-1/3 left-1/4 w-[30vw] h-[30vw] bg-[#9b87f5]/20 rounded-full filter blur-[150px] animate-pulse opacity-30" style={{ animationDelay: '2s' }}></div>
           </div>
           
           {/* Search Bar */}
@@ -62,24 +63,35 @@ const Events = () => {
             </div>
           </div>
 
-          {/* Globe */}
+          {/* Content with Globe */}
           <div className="relative container mx-auto px-6 z-10 flex flex-col lg:flex-row items-center gap-10">
-            <div className="lg:w-1/2">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">AI Summit 2025</h1>
+            <div className="lg:w-1/2 text-center lg:text-left">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                Global AI Events & <span className="gradient-text">Hackathons</span>
+              </h1>
               <p className="text-white/80 mb-6 text-lg">
-                Join us for the largest AI conference of the year, featuring keynote speakers from leading tech companies,
-                hands-on workshops, and networking opportunities with industry experts.
+                Join our worldwide community of AI enthusiasts and professionals. 
+                Discover events, workshops, and hackathons happening across the globe.
               </p>
               <button 
-                onClick={() => handleRegister('ai-summit-2025')}
+                onClick={() => handleEventSelect({
+                  id: 'ai-summit-2025',
+                  title: 'AI Summit 2025',
+                  description: 'Global AI conference',
+                  date: new Date('2025-04-05'),
+                  location: 'San Francisco, CA',
+                  category: 'seminar',
+                  price: 'Free',
+                  imageUrl: '/placeholder.svg'
+                })}
                 className="btn-primary"
               >
-                Register Now
+                Explore Events
               </button>
             </div>
             
-            <div className="lg:w-1/2 relative h-[500px] w-full">
-              <Globe className="absolute inset-0" />
+            <div className="lg:w-1/2 relative">
+              <Globe />
             </div>
           </div>
         </div>
