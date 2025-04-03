@@ -66,6 +66,30 @@ const About = () => {
     })
   };
 
+  // Company milestones
+  const milestones = [
+    {
+      year: '2020',
+      title: 'Foundation',
+      description: 'UNAI TECH was founded with a vision to revolutionize AI education.'
+    },
+    {
+      year: '2021',
+      title: 'Launch of Eve Platform',
+      description: 'Introduced our flagship AI-powered learning platform.'
+    },
+    {
+      year: '2022',
+      title: 'Global Expansion',
+      description: 'Expanded to 50+ countries with 100,000+ active learners.'
+    },
+    {
+      year: '2023',
+      title: 'Industry Recognition',
+      description: 'Named "Most Innovative EdTech Company" by Tech Innovation Awards.'
+    }
+  ];
+
   // Testimonials data
   const testimonials = [
     {
@@ -98,11 +122,106 @@ const About = () => {
     <div className="min-h-screen bg-unai-black">
       <Navbar />
       
-      {/* Header section... */}
-      
-      {/* Mission & Vision section... */}
-      
-      {/* Values section... */}
+      {/* About UNAI TECH Section */}
+      <div className="pt-24 pb-16 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-unai-darkblue/30 to-unai-black"></div>
+        
+        <div className="relative section-container">
+          <div className="text-center mb-16">
+            <h1 className="text-sm uppercase tracking-wider text-unai-blue mb-3 animate-fade-in">
+              About Us
+            </h1>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 animate-fade-in">
+              Pioneering the Future of <span className="gradient-text">AI Education</span>
+            </h2>
+            <p className="max-w-3xl mx-auto text-white/70 text-lg animate-fade-in">
+              UNAI TECH is a leading AI education platform dedicated to making artificial intelligence 
+              accessible, understandable, and practical for learners worldwide.
+            </p>
+          </div>
+
+          {/* Mission & Vision */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div className="glass-panel p-8">
+              <h3 className="text-2xl font-bold mb-4 gradient-text">Our Mission</h3>
+              <p className="text-white/70 mb-6">
+                To democratize AI education by providing accessible, high-quality learning experiences 
+                that empower individuals to master artificial intelligence and shape the future of technology.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3 text-white/80">
+                  <div className="h-2 w-2 bg-unai-blue rounded-full"></div>
+                  <span>Making AI education accessible to everyone</span>
+                </li>
+                <li className="flex items-center gap-3 text-white/80">
+                  <div className="h-2 w-2 bg-unai-blue rounded-full"></div>
+                  <span>Building a global community of AI practitioners</span>
+                </li>
+                <li className="flex items-center gap-3 text-white/80">
+                  <div className="h-2 w-2 bg-unai-blue rounded-full"></div>
+                  <span>Fostering innovation through hands-on learning</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="glass-panel p-8">
+              <h3 className="text-2xl font-bold mb-4 gradient-text">Our Vision</h3>
+              <p className="text-white/70 mb-6">
+                To create a world where AI literacy is universal, enabling individuals and organizations 
+                to harness the power of artificial intelligence for positive global impact.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3 text-white/80">
+                  <div className="h-2 w-2 bg-unai-blue rounded-full"></div>
+                  <span>Leading innovation in AI education</span>
+                </li>
+                <li className="flex items-center gap-3 text-white/80">
+                  <div className="h-2 w-2 bg-unai-blue rounded-full"></div>
+                  <span>Bridging the AI skills gap globally</span>
+                </li>
+                <li className="flex items-center gap-3 text-white/80">
+                  <div className="h-2 w-2 bg-unai-blue rounded-full"></div>
+                  <span>Shaping the future of work and technology</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Company Milestones */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-8 text-center text-white">Our Journey</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {milestones.map((milestone, index) => (
+                <div key={milestone.year} className="glass-panel p-6 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="text-unai-blue font-bold text-xl mb-2">{milestone.year}</div>
+                  <h4 className="text-white font-semibold mb-2">{milestone.title}</h4>
+                  <p className="text-white/70 text-sm">{milestone.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Key Numbers */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+            <div className="glass-panel p-6 text-center">
+              <div className="text-3xl font-bold gradient-text mb-2">100K+</div>
+              <div className="text-white/70 text-sm">Active Learners</div>
+            </div>
+            <div className="glass-panel p-6 text-center">
+              <div className="text-3xl font-bold gradient-text mb-2">50+</div>
+              <div className="text-white/70 text-sm">Countries</div>
+            </div>
+            <div className="glass-panel p-6 text-center">
+              <div className="text-3xl font-bold gradient-text mb-2">200+</div>
+              <div className="text-white/70 text-sm">Industry Partners</div>
+            </div>
+            <div className="glass-panel p-6 text-center">
+              <div className="text-3xl font-bold gradient-text mb-2">95%</div>
+              <div className="text-white/70 text-sm">Success Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Team Section with Stacked Cards */}
       <div className="section-container py-16">
@@ -247,8 +366,6 @@ const About = () => {
           <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-unai-black to-transparent"></div>
         </div>
       </div>
-      
-      {/* Join Us CTA section... */}
       
       <Footer />
     </div>
