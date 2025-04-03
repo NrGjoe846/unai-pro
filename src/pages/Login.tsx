@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -171,7 +170,10 @@ const Login = () => {
               <div className="text-center mt-4">
                 <p className="text-white/60 text-sm">
                   Don't have an account?{" "}
-                  <Link to="/signup" className="text-unai-blue hover:text-unai-blue/80 hover:underline">
+                  <Link 
+                    to="/signup" 
+                    className="text-unai-blue hover:text-unai-blue/80 hover:underline"
+                  >
                     Create an account
                   </Link>
                 </p>
