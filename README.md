@@ -1,69 +1,121 @@
-# Welcome to your Lovable project
+# UNAI TECH - AI Education Platform
 
-## Project info
+UNAI TECH is a cutting-edge AI education platform that combines gamification, personalized learning paths, and real-world projects to make artificial intelligence education accessible and engaging for everyone.
 
-**URL**: https://lovable.dev/projects/2a0aea29-3fc6-4be9-9e03-e04b32fa0783
+## Features
 
-## How can I edit this code?
+- **Eve AI Learning Platform**: Personalized learning paths with adaptive AI technology
+- **Interactive Courses**: Hands-on AI and machine learning courses
+- **Global Events**: Hackathons, workshops, and networking opportunities
+- **Gamified Learning**: Achievement system and competitive challenges
+- **Real-time Analytics**: Track your progress with detailed performance insights
+- **Expert Community**: Connect with AI professionals and fellow learners
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend Framework**: React 18
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Type Safety**: TypeScript
+- **Animations**: Framer Motion
+- **3D Graphics**: Three.js, React Three Fiber
+- **Form Handling**: React Hook Form
+- **Validation**: Zod
+- **State Management**: React Query
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2a0aea29-3fc6-4be9-9e03-e04b32fa0783) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js 18 or higher
+- npm or yarn package manager
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/unai-tech.git
+```
 
-Follow these steps:
+2. Navigate to the project directory:
+```bash
+cd unai-tech
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Install dependencies:
+```bash
+npm install
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+4. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Build
 
-**Use GitHub Codespaces**
+To create a production build:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+npm run build
+```
 
-## What technologies are used for this project?
+## Project Structure
 
-This project is built with .
+```
+src/
+├── components/     # Reusable UI components
+├── pages/         # Page components and routes
+├── hooks/         # Custom React hooks
+├── lib/           # Utility functions and helpers
+├── types/         # TypeScript type definitions
+└── styles/        # Global styles and Tailwind config
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Key Features
 
-## How can I deploy this project?
+### Eve AI Platform
+- Personalized learning paths
+- Real-time feedback
+- Interactive coding environment
+- Progress tracking
 
-Simply open [Lovable](https://lovable.dev/projects/2a0aea29-3fc6-4be9-9e03-e04b32fa0783) and click on Share -> Publish.
+### Events & Community
+- Global hackathons
+- AI workshops
+- Networking events
+- Expert webinars
 
-## I want to use a custom domain - is that possible?
+### Gamification
+- Achievement system
+- Skill badges
+- Leaderboards
+- Learning challenges
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+- Website: [unaitech.com](https://unaitech.com)
+- Email: support@unaitech.com
+- Twitter: [@unaitech](https://twitter.com/unaitech)
+- LinkedIn: [UNAI TECH](https://linkedin.com/company/unaitech)
+
+## Acknowledgments
+
+- Thanks to all contributors who have helped shape UNAI TECH
+- Special thanks to our community of learners and educators
+- Inspired by the mission to democratize AI education
