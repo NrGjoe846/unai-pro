@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar as CalendarIcon, MapPin, Clock, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { EventData } from '@/types/event';
-import { Button } from './ui/button';
+import { Button } from "@/components/ui/button";
 
 // Mock events data
 const eventsData: EventData[] = [
@@ -134,13 +134,6 @@ const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
                   </ul>
                 </div>
               )}
-              
-              <Button 
-                onClick={() => handleRegister(selectedDateEvents[0].id)}
-                className="w-full bg-unai-blue hover:bg-unai-blue/90"
-              >
-                Register Now
-              </Button>
             </div>
           )}
         </div>
@@ -233,13 +226,13 @@ const EventCalendar = ({ onEventSelect }: EventCalendarProps) => {
                       <span>{event.location}</span>
                     </div>
                   </div>
-                  
+
                   <Button 
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRegister(event.id);
                     }}
-                    className="mt-4 bg-unai-blue hover:bg-unai-blue/90"
+                    className="mt-4 w-full bg-unai-blue hover:bg-unai-blue/90"
                   >
                     Register Now
                   </Button>
