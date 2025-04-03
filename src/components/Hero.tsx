@@ -1,7 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Aurora } from './Aurora';
 
 const Hero = () => {
   const [greeting, setGreeting] = useState("Welcome to UNAI TECH");
@@ -23,9 +22,6 @@ const Hero = () => {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-unai-black via-unai-darkblue to-unai-black z-0" />
       
-      {/* Aurora effect */}
-      <Aurora />
-      
       {/* Animated grid lines */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" 
@@ -36,7 +32,7 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* Glowing orbs - enhanced */}
+      {/* Glowing orbs */}
       <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-unai-blue/20 rounded-full filter blur-[80px] animate-float opacity-60 z-0"></div>
       <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-unai-blue/10 rounded-full filter blur-[100px] animate-float opacity-40 z-0" style={{ animationDelay: '1s' }}></div>
       <div className="absolute top-1/3 left-1/4 w-48 h-48 bg-[#9b87f5]/20 rounded-full filter blur-[70px] animate-float opacity-50 z-0" style={{ animationDelay: '1.5s' }}></div>
