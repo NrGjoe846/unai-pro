@@ -111,84 +111,120 @@ export function AuthModal({ isOpen, onClose, defaultView = "signin" }: AuthModal
         </DialogHeader>
 
         {view === "signin" ? (
-          <Form {...signInForm}>
-            <form onSubmit={signInForm.handleSubmit(onSignIn)} className="space-y-4 mt-4">
-              <FormField
-                control={signInForm.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white/80">Email</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-white/40" />
-                        <Input
-                          placeholder="your.email@example.com"
-                          className="pl-10 bg-white/5 border-white/10 text-white"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={signInForm.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white/80">Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-white/40" />
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          placeholder="••••••••"
-                          className="pl-10 bg-white/5 border-white/10 text-white"
-                          {...field}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-3 text-white/40 hover:text-white/60"
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+          <>
+            {/* Social Login Buttons */}
+            <div className="space-y-3">
               <Button 
-                type="submit" 
-                className="w-full bg-unai-blue hover:bg-unai-blue/90"
+                variant="outline" 
+                className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white"
+                onClick={() => console.log("Google login")}
               >
-                Sign In
+                Continue with Google
               </Button>
+              <Button 
+                variant="outline" 
+                className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white"
+                onClick={() => console.log("Apple login")}
+              >
+                Continue with Apple
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white"
+                onClick={() => console.log("GitHub login")}
+              >
+                Continue with GitHub
+              </Button>
+              
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-white/10"></div>
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-unai-black px-2 text-white/50">Or continue with</span>
+                </div>
+              </div>
+            </div>
 
-              <p className="text-center text-white/60 text-sm">
-                Don't have an account?{" "}
-                <button
-                  type="button"
-                  onClick={toggleView}
-                  className="text-unai-blue hover:text-unai-blue/80 hover:underline"
+            <Form {...signInForm}>
+              <form onSubmit={signInForm.handleSubmit(onSignIn)} className="space-y-4">
+                <FormField
+                  control={signInForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white/80">Email</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-white/40" />
+                          <Input
+                            placeholder="your.email@example.com"
+                            className="pl-10 bg-white/5 border-white/10 text-white"
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={signInForm.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white/80">Password</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-3 h-4 w-4 text-white/40" />
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="••••••••"
+                            className="pl-10 bg-white/5 border-white/10 text-white"
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-3 text-white/40 hover:text-white/60"
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button 
+                  type="submit" 
+                  className="w-full bg-unai-blue hover:bg-unai-blue/90"
                 >
-                  Sign up
-                </button>
-              </p>
-            </form>
-          </Form>
+                  Sign In
+                </Button>
+
+                <p className="text-center text-white/60 text-sm">
+                  Don't have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={toggleView}
+                    className="text-unai-blue hover:text-unai-blue/80 hover:underline"
+                  >
+                    Sign up
+                  </button>
+                </p>
+              </form>
+            </Form>
+          </>
         ) : (
           <Form {...signUpForm}>
-            <form onSubmit={signUpForm.handleSubmit(onSignUp)} className="space-y-4 mt-4">
+            <form onSubmit={signUpForm.handleSubmit(onSignUp)} className="space-y-4">
               <FormField
                 control={signUpForm.control}
                 name="name"
