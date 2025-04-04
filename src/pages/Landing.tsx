@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ParticleRing from "../components/ParticleRing";
+import GradientText from "../components/GradientText";
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();
 
   const handleUpgradeClick = () => {
-    navigate("/Home"); // Changed from "/Home" to "/" since Index is our main route
+    navigate("/Home");
   };
 
   return (
@@ -19,9 +20,16 @@ const Landing: React.FC = () => {
         <p className="text-xl mb-8">Discover a universe of knowledge and skills.</p>
         <button
           onClick={handleUpgradeClick}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-lg font-semibold transition duration-300"
+          className="glass-panel px-8 py-4 rounded-full hover:bg-white/5 transition-all duration-300 shadow-[0_0_15px_rgba(0,119,255,0.3)] hover:shadow-[0_0_25px_rgba(0,119,255,0.5)] transform hover:scale-105"
         >
-          Upgrade Your Skills
+          <GradientText
+            colors={["#0077ff", "#00a8ff", "#0077ff"]}
+            animationSpeed={3}
+            showBorder={false}
+            className="text-xl font-bold tracking-wide"
+          >
+            Upgrade Your Skills
+          </GradientText>
         </button>
       </div>
     </div>
