@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Lock, Mail, User, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 import {
   Dialog,
@@ -56,6 +57,7 @@ export function AuthModal({ isOpen, onClose, defaultView = "signin" }: AuthModal
   const [view, setView] = useState<"signin" | "signup">(defaultView);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const supabase = useSupabaseClient();
 
   // Sign In Form
   const signInForm = useForm<SignInValues>({
@@ -77,22 +79,74 @@ export function AuthModal({ isOpen, onClose, defaultView = "signin" }: AuthModal
     },
   });
 
-  const onSignIn = (values: SignInValues) => {
-    console.log("Sign in:", values);
-    toast({
-      title: "Welcome back!",
-      description: "You have successfully signed in.",
-    });
-    onClose();
+  const onSignIn = async (values: SignInValues) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Welcome back!",
+        description: "You have successfully signed in.",
+      });
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign in. Please check your credentials.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const onSignUp = (values: SignUpValues) => {
-    console.log("Sign up:", values);
-    toast({
-      title: "Account created!",
-      description: "Your account has been created successfully.",
-    });
-    onClose();
+  const onSignUp = async (values: SignUpValues) => {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          data: {
+            full_name: values.name,
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Account created!",
+        description: "Your account has been created successfully.",
+      });
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create account. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) throw error;
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign in with Google. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const toggleView = () => {
@@ -117,23 +171,10 @@ export function AuthModal({ isOpen, onClose, defaultView = "signin" }: AuthModal
               <Button 
                 variant="outline" 
                 className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white"
-                onClick={() => console.log("Google login")}
+                onClick={handleGoogleSignIn}
               >
+                <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4 mr-2" />
                 Continue with Google
-              </Button>
-              <Button 
-                variant="outline" 
-                className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white"
-                onClick={() => console.log("Apple login")}
-              >
-                Continue with Apple
-              </Button>
-              <Button 
-                variant="outline" 
-                className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white"
-                onClick={() => console.log("GitHub login")}
-              >
-                Continue with GitHub
               </Button>
               
               <div className="relative">
