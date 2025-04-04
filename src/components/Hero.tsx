@@ -3,20 +3,8 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 const Hero = () => {
-  const [greeting, setGreeting] = useState("Welcome to UNAI TECH");
   const [isLoaded, setIsLoaded] = useState(false);
   
-  // Simulate a user login experience
-  useEffect(() => {
-    setTimeout(() => {
-      // This simulates a returning user - in a real app, you'd use auth
-      const usernames = ["Sarah", "Alex", "Jordan", "Taylor", "Morgan"];
-      const randomName = usernames[Math.floor(Math.random() * usernames.length)];
-      setGreeting(`Welcome back, ${randomName}!`);
-      setIsLoaded(true);
-    }, 2000);
-  }, []);
-
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
@@ -49,12 +37,6 @@ const Hero = () => {
       {/* Hero content */}
       <div className="relative container mx-auto px-6 z-10">
         <div className="flex flex-col items-center text-center">
-          <div className="inline-block mb-6 bg-white/10 backdrop-blur-md rounded-full px-4 py-1 border border-white/20 animate-fade-in">
-            <span className={`text-xs text-white/80 transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-              {greeting}
-            </span>
-          </div>
-          
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <span className="gradient-text">Revolutionizing AI Learning</span>
             <br />
