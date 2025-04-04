@@ -65,24 +65,6 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link 
-              to="/login" 
-              className="btn-secondary text-sm"
-              aria-label="Sign in to your account"
-            >
-              Sign In
-            </Link>
-            <Link 
-              to="/signup" 
-              className="btn-primary text-sm"
-              aria-label="Create a new account"
-            >
-              Join Now
-            </Link>
-          </div>
-
           {/* Mobile menu button */}
           <button
             className="md:hidden text-white"
@@ -116,20 +98,6 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <div className="flex flex-col space-y-3 pt-3">
-            <Link 
-              to="/login" 
-              className="btn-secondary text-center"
-            >
-              Sign In
-            </Link>
-            <Link 
-              to="/signup" 
-              className="btn-primary text-center"
-            >
-              Join Now
-            </Link>
-          </div>
         </div>
       </div>
     </nav>
