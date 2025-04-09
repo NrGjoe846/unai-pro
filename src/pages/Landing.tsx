@@ -34,7 +34,7 @@ const Landing: React.FC = () => {
             </span>
           </h1>
           <p className="text-xl text-white/80 mb-8">
-            Discover a universe of knowledge and skills.
+            
           </p>
         </motion.div>
 
