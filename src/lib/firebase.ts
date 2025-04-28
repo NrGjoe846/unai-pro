@@ -12,12 +12,13 @@ import { useEffect, useState } from "react";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBge3RcgVMMj9R8LzRCdQiOXzWilnPMchU",
-  authDomain: "unai-60418.firebaseapp.com",
-  projectId: "unai-60418",
-  storageBucket: "unai-60418.appspot.com",
-  messagingSenderId: "453812371761",
-  appId: "1:453812371761:web:6237d32299050ad88e3010"
+  apiKey: "AIzaSyC1NHHP0WXYtHGfQBDaUe3h5ZzT6uGDCYQ",
+  authDomain: "unai-pro.firebaseapp.com",
+  projectId: "unai-pro",
+  storageBucket: "unai-pro.firebasestorage.app",
+  messagingSenderId: "158459662079",
+  appId: "1:158459662079:web:67d522fa47cdd32838c6ca",
+  measurementId: "G-0695YREKP1"
 };
 
 // Initialize Firebase
