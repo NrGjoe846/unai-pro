@@ -5,7 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  User
+  User,
+  sendPasswordResetEmail
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 
@@ -14,7 +15,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBge3RcgVMMj9R8LzRCdQiOXzWilnPMchU",
   authDomain: "unai-60418.firebaseapp.com",
   projectId: "unai-60418",
-  storageBucket: "unai-60418.firebasestorage.app",
+  storageBucket: "unai-60418.appspot.com",
   messagingSenderId: "453812371761",
   appId: "1:453812371761:web:6237d32299050ad88e3010"
 };
@@ -30,6 +31,10 @@ export const signIn = (email: string, password: string) => {
 
 export const signUp = (email: string, password: string) => {
   return createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const resetPassword = (email: string) => {
+  return sendPasswordResetEmail(auth, email);
 };
 
 export const logOut = () => {
