@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "@/lib/firebase";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +32,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   
-  // Initialize form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,20 +41,32 @@ const Login = () => {
     },
   });
 
-  const onSubmit = (values: FormValues) => {
-    // In a real app, you'd implement actual authentication here
-    console.log("Login attempt:", values);
-    
-    // Simulate login success
-    toast({
-      title: "Login successful",
-      description: "Welcome back to UNAI TECH!",
-    });
-    
-    // Redirect to home page after login
-    setTimeout(() => {
+  const onSubmit = async (values: FormValues) => {
+    try {
+      const { user, error } = await signIn(values.email, values.password);
+      
+      if (error) {
+        toast({
+          title: "Error",
+          description: error,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Login successful",
+        description: "Welcome back to UNAI TECH!",
+      });
+      
       navigate("/");
-    }, 1500);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
