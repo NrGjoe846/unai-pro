@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/auth";
 import { 
   getAuth, 
   signInWithEmailAndPassword,
@@ -12,13 +12,12 @@ import { useEffect, useState } from "react";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC1NHHP0WXYtHGfQBDaUe3h5ZzT6uGDCYQ",
-  authDomain: "unai-pro.firebaseapp.com",
-  projectId: "unai-pro",
-  storageBucket: "unai-pro.firebasestorage.app",
-  messagingSenderId: "158459662079",
-  appId: "1:158459662079:web:67d522fa47cdd32838c6ca",
-  measurementId: "G-0695YREKP1"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
@@ -26,20 +25,40 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 // Authentication functions
-export const signIn = (email: string, password: string) => {
-  return signInWithEmailAndPassword(auth, email, password);
+export const signIn = async (email: string, password: string) => {
+  try {
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    return { user: result.user, error: null };
+  } catch (error: any) {
+    return { user: null, error: error.message };
+  }
 };
 
-export const signUp = (email: string, password: string) => {
-  return createUserWithEmailAndPassword(auth, email, password);
+export const signUp = async (email: string, password: string) => {
+  try {
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    return { user: result.user, error: null };
+  } catch (error: any) {
+    return { user: null, error: error.message };
+  }
 };
 
-export const resetPassword = (email: string) => {
-  return sendPasswordResetEmail(auth, email);
+export const resetPassword = async (email: string) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return { error: null };
+  } catch (error: any) {
+    return { error: error.message };
+  }
 };
 
-export const logOut = () => {
-  return signOut(auth);
+export const logOut = async () => {
+  try {
+    await signOut(auth);
+    return { error: null };
+  } catch (error: any) {
+    return { error: error.message };
+  }
 };
 
 // Custom hook for auth state
