@@ -12,9 +12,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useAuth();
 
+  if (auth.loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
-      {!auth.loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }
