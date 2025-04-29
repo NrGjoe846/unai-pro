@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Lock, Mail, User, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signUp } from "@/lib/firebase";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -42,7 +42,6 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   
-  // Initialize form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,20 +53,32 @@ const Signup = () => {
     },
   });
 
-  const onSubmit = (values: FormValues) => {
-    // In a real app, you'd implement actual registration here
-    console.log("Sign up:", values);
-    
-    // Simulate signup success
-    toast({
-      title: "Account created successfully",
-      description: "Welcome to UNAI TECH! You can now sign in.",
-    });
-    
-    // Redirect to login page after signup
-    setTimeout(() => {
+  const onSubmit = async (values: FormValues) => {
+    try {
+      const { user, error } = await signUp(values.email, values.password);
+      
+      if (error) {
+        toast({
+          title: "Error",
+          description: error,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Account created successfully",
+        description: "Welcome to UNAI TECH! You can now sign in.",
+      });
+      
       navigate("/login");
-    }, 1500);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
