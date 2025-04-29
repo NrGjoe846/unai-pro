@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
 import { 
   getAuth, 
   signInWithEmailAndPassword,
@@ -12,12 +12,12 @@ import { useEffect, useState } from "react";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: "AIzaSyC1NHHP0WXYtHGfQBDaUe3h5ZzT6uGDCYQ",
+  authDomain: "unai-pro.firebaseapp.com",
+  projectId: "unai-pro",
+  storageBucket: "unai-pro.appspot.com",
+  messagingSenderId: "158459662079",
+  appId: "1:158459662079:web:67d522fa47cdd32838c6ca"
 };
 
 // Initialize Firebase
